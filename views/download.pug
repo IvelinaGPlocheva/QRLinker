@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  main.container
+  .bg-light.p-5.rounded.m-5
+    img(src=qr_code)
+    a(href='/download?message=' + message) Download

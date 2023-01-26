@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  main.container
+  .bg-light.p-5.rounded.m-5
+    h1= title
+    p Welcome to #{title}
+    div
+      a.btn.btn-primary.m-1(href='/generate', role='button') Generate
+      a.btn.btn-primary.m-1(href='/download', role='button') Download

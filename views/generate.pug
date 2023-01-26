@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  main.container
+  .bg-light.p-5.rounded.m-5
+    h1= title
+    p A QR Code will be generated using the following information:
+    form(action='/generate' method='POST')
+      .form-group.mb-3
+        input#message.form-control(type='text' name='message' placeholder="Type information you want to encode..." required)
+      button.btn.btn-primary.mb-2(type='submit') Create
+    if qr_code_url
+      div.m-1
+        h1 A QR Code has been generated.
+        a.btn.btn-primary.mb-2(href=qr_code_url target="_blank" role='button') Your QR Code
