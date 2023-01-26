@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# Environment Variables
+#
+# VAR_ROOT
+# - Root to where variable files are stored.
+#
+# ENV
+# - `production` for production mode, anything else for development.
+
+set -e
+
+SCRIPT_DIR=$(realpath $(dirname $0))
+
+DEFAULT_ENV="development"
+DEFAULT_VAR_ROOT="$SCRIPT_DIR/../.docker-volumes"
+
+export ENV=${ENV:-$DEFAULT_ENV}
+VAR_ROOT=${VAR_ROOT:-$DEFAULT_VAR_ROOT}
+
+mkdir -p "$VAR_ROOT/home"
+mkdir -p "$VAR_ROOT/shared"
+mkdir -p "$VAR_ROOT/mongo/data/db"
+
+DEFAULT_USER=""
+RUNAS_USER=${RUNAS_USER:-$DEFAULT_USER}
+RUNAS="$(id -u $RUNAS_USER):$(id -g $RUNAS_USER)"
+
+source "$SCRIPT_DIR/.env"
+
+#  Make available to docker.
+export \
+  NODE_ENV \
+  DB_URL \
+  VAR_ROOT \
+  RUNAS \
+  SCRIPT_DIR
+
+PROJECT=${PROJECT:-qr-code-generatore}
+
+docker-compose \
+    -f "$SCRIPT_DIR/docker-run-compose.yml" \
+    -p "$PROJECT" \
+    "$@"
