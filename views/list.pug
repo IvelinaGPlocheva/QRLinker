@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  main.container
+  .bg-light.p-5.rounded.m-5
+    h1 QR Codes
+    .row
+      each qrCode in qrCodes
+        .col-md-3
+          .card
+            img.card-img-top(src=qrCode.qrCode, width='180', height='180')
+            .card-body
+              p.card-text #{qrCode.message}
+              a.btn.btn-primary(href=qrCode.qrCode, download="qr-code.png") Download

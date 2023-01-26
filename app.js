@@ -10,6 +10,7 @@ let logger = require('morgan');
 let indexRouter = require('./routes/index');
 let generateQrCodeRouter = require('./routes/generate');
 let downloadQrCodeRouter = require('./routes/download');
+let listQrCodeRouter = require('./routes/list');
 
 let app = express();
 
@@ -31,6 +32,7 @@ app.use("/lib/bootstrap", express.static(__dirname + "/node_modules/bootstrap/di
 app.use('/', indexRouter);
 app.use('/generate', generateQrCodeRouter);
 app.use('/download', downloadQrCodeRouter);
+app.use('/list', listQrCodeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
