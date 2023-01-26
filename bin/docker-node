@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This script runs a command using node:18 against the source code in docker.
+# It simplifies the development process by not containerising the entire
+# source code and provides volumes for the home directory.
+
+SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR_PARENT=$(cd "$SCRIPT_DIR" && cd ../ && pwd)
+
+mkdir -p "$SCRIPT_DIR_PARENT"/.docker-volumes/home
+docker run -it \
+  -p 3000:3000 \
+  -u $(id -u):$(id -g) \
+  -v "${SCRIPT_DIR_PARENT}/:/tmp/src" \
+  -v "${SCRIPT_DIR_PARENT}/.docker-volumes/home:/tmp/home" \
+  -e HOME=/tmp/home \
+  -w /tmp/src \
+  node:18 \
+  "$@"
