@@ -11,7 +11,7 @@ block content
             img.card-img-top(src=qrCode.qrCode, width='180', height='180')
             .card-body
               p.card-text #{qrCode.message}
-              a.btn.btn-outline-primary(href=qrCode.qrCode, download="qr-code.png") Download
+              a.btn.btn-outline-primary(href=qrCode.qrCode, download="qr-code.png" target="_blank") Download
               - var deleteAction = "/list/" + qrCode._id
               form(method="post" action=deleteAction)
                 input(type="hidden" name="qrCodeId" value=qrCode._id)
