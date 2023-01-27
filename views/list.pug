@@ -2,17 +2,46 @@ extends layout
 
 block content
   main.container
-  .bg-light.p-5.rounded.m-5
-    h1 QR Codes
-    .row
-      each qrCode in qrCodes
-        .col-md-3.col-sm-3.p-1
-          .card
-            img.card-img-top(src=qrCode.qrCode, width='180', height='180')
-            .card-body
-              p.card-text #{qrCode.message}
-              a.btn.btn-outline-primary(href=qrCode.qrCode, download="qr-code.png" target="_blank") Download
-              - var deleteAction = "/list/" + qrCode._id
-              form(method="post" action=deleteAction)
-                input(type="hidden" name="qrCodeId" value=qrCode._id)
-                button.btn.btn-outline-danger Delete
+    .bg-light.p-5.rounded.m-5
+      h1 QR Codes
+      .row
+        each qrCode in qrCodes
+          .col-md-3.col-sm-3.p-1
+            .card
+              img.card-img-top(src=qrCode.qrCode, width='180', height='180')
+              .card-body
+                p.card-text #{qrCode.message}
+                a.btn.btn-outline-primary.m-1(href=qrCode.qrCode, download="qr-code.png") Download
+                - var qrCodeId = qrCode._id
+                a.btn.btn-outline-primary.m-1(href='#' onclick='showOverlay("' + qrCodeId + '", "' + qrCode.message + '")') Edit
+                - var deleteAction = "/list/" + qrCodeId
+                form(method="post" action=deleteAction)
+                  .form-group.mb-3
+                    input(type="hidden" name="qrCodeId" value=qrCodeId)
+                    button.btn.btn-outline-danger.m-1 Delete
+
+  // Overlay Pop Up for Edit
+  #overlay.overlay(style='position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 9999; display: none;')
+      #popup.popup
+        .bg-light.p-5.rounded.m-5
+          h2 Edit QR Code
+          form(method="post" action='/update')
+            .form-group.mb-3
+              div
+                input#qrCodeId.form-control(type="hidden" name="qrId" value='')
+              div
+                label.p-1(for="message") Message:
+                input#message.form-control(type="text" name="message" value='')
+              div
+                button.btn.btn-outline-primary.m-1 Update
+                a.btn.btn-outline-danger.m-1(href='#' onclick='hideOverlay()') Close
+
+  script.
+    function showOverlay(qrCodeId, message) {
+        document.querySelector("input[name='qrId']").value = qrCodeId;
+        document.querySelector("input[name='message']").value = message;
+        document.querySelector("#overlay").style.display = "block";
+    }
+    function hideOverlay() {
+        document.getElementById("overlay").style.display = "none";
+    }
