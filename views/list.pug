@@ -11,7 +11,7 @@ block content
               img.card-img-top(src=qrCode.qrCode, width='180', height='180')
               .card-body
                 p.card-text #{qrCode.message}
-                a.btn.btn-outline-primary.m-1(href=qrCode.qrCode, download="qr-code.png") Download
+                a.btn.btn-outline-primary.m-1(href=qrCode.qrCode, target="_blank" download="qr-code.png") Download
                 - var qrCodeId = qrCode._id
                 a.btn.btn-outline-primary.m-1(href='#' onclick='showOverlay("' + qrCodeId + '", "' + qrCode.message + '")') Edit
                 - var deleteAction = "/list/" + qrCodeId
