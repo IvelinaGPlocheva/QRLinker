@@ -1,3 +1,5 @@
+"use strict";
+
 let mongoose = require('mongoose');
 
 let qrCodeSchema = new mongoose.Schema({
