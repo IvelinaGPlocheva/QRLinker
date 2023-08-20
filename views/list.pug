@@ -3,6 +3,7 @@ extends layout
 block content
   main.container
     .bg-light.p-5.rounded.m-5
+      a.btn.btn-outline-primary.m-1(href="/list?export=csv") Export to CSV
       h1 QR Codes
       .row
         each qrCode in qrCodes
